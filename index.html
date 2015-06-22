@@ -1,0 +1,84 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>	
+<head>
+<title>Flate Signup And Login Form with Flat Responsive template :: w3layouts</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<meta name="keywords" content="Transparent Organic Form Responsive Templates, Iphone Widget Template, Smartphone login forms,Login form, Widget Template, Responsive Templates, a Ipad 404 Templates, Flat Responsive Templates" />
+<link href="css/style.css" rel='stylesheet' type='text/css' />
+<!--web-fonts-->
+<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<!--/web-fonts-->
+</head>
+<body>
+	 <canvas id="canvas" class="offScreen"></canvas>
+	<h1>Laberinto 3D</h1>
+<div class="two-forms">
+	<div class="wrap">
+		<div class="signup">
+			<h2>Nuevo<span>Laberinto</span></h2>
+			<div class="singup-info">
+				<form>
+					
+							
+						<div class="users">
+							<input type="text" class="text" value="Nombre del Laberinto" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Nombre del Laberinto';}" >
+							<p>Seleccione un archivo de imagen para la generación del laberinto (muros en negro suelo en blanco).</p>
+							<input type="file" class="text" value="User Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'User Name';}" >
+							<p>Para definir las posiciones de inicio y meta del laberinto, pulse los respectivos botones y siga las instrucciones.</p>
+							<div>
+								
+								<input type="submit" onclick="myFunction()" value="inicio" >
+								<input type="submit" onclick="myFunction()" value="meta" >
+								
+							</div>
+							
+							<p>Si lo desea, puede variar el tamaño, en ocasiones la generación automática a partir de imagenes no escala adecuadamente.</p>
+							<input type="text" class="text" value="200" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '200';}" >
+					
+						</div>
+				</form>
+				<p>
+					Puedes colocar referencias externas simulando un cielo mediante SkyBox. 
+					Para modificar el SkyBox sustituir las imagenes en la carpeta "textures/skybox/".
+				</p>		
+				<div class="p-container">
+					<label class="checkbox"><input type="checkbox" name="skybox" checked><i> </i>Usar SkyBox</label>
+				</div>
+				<div class="clear"> </div>
+				<div class="btns"><input type="submit" onclick="myFunction()" value="guardar" ></div>
+				<div class="clear"> </div>
+				<div class="clear"> </div>
+			</div>
+		</div>
+		<div class="login">
+			<h3>Cargar<span>Laberinto</span></h3>
+			<div class="login-info">
+				<p>Selecciona un archivo de un laberinto creado anteriormente para cargarlo:</p>
+				<input type="file" class="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Laberinto';}" >
+				<div class="btns">
+				<input type="submit" onclick="myFunction()" value="cargar" ></div>
+				
+				<p>O puedes utilizar un laberindo predefinido</p>
+				<input type="text" class="text" value="Laberinto" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Laberinto';}" >
+				<div class="btns"> <input type="submit" onclick="myFunction()" value="cargar" > </div>
+				<div class="p-container">
+					<label class="checkbox"><input type="checkbox" name="Oculus" checked><i> </i>Oculus Rift</label>
+				</div>
+				<div class="clear"> </div>
+				<div class="clear"> </div>
+			</div>
+		</div>
+		<div class="clear"> </div>
+	</div>
+</div>
+		
+</body>
+</html>
