@@ -5,22 +5,47 @@
 
 // Size of a cube/block
 var BLOCK_SIZE = 8;
-var freeCamera, canvas, engine, Scene;
+var Camera, canvas, engine, Scene;
+var oculus = false;
 
 var inicio;
 
-var Laberinto = function(_name, _inicio, _fin, _scene) {
+var Laberinto = function(_name, _inicio, _fin) {
     this.name = _name;
     this.inicio = _inicio;
     this.fin = _fin;
-    this.scene = _scene;
 
     this.getInicio = function() {
         return new BABYLON.Vector3(this.inicio.x, this.inicio.y, this.inicio.z);
     }
 
-}
+    this.getFin = function() {
+        return new BABYLON.Vector3(this.fin.x, this.fin.y, this.fin.z);
+    }
 
+};
+
+var setCamera = function(scene, inicio) {
+    var _camera;
+    if(oculus)
+        _camera = new BABYLON.OculusCamera("Camera", inicio, scene)
+    else
+        _camera = new BABYLON.FreeCamera("free", inicio, scene);
+    
+    _camera.minZ = 1;
+    _camera.checkCollisions = true;
+    _camera.applyGravity = true;
+    _camera.ellipsoid = new BABYLON.Vector3(1, 3, 1);
+    _camera.inertia = 0.4;
+    _camera.angularSensibility = 1000;
+    _camera.speed = 5;
+    _camera.keysUp.push(87); // W
+    _camera.keysLeft.push(65); // A
+    _camera.keysDown.push(83); // S
+    _camera.keysRight.push(68); // D
+
+    return _camera;
+};
 
 function createMaze() {
     //number of modules count or cube in width/height
@@ -32,21 +57,8 @@ function createMaze() {
     scene.gravity = new BABYLON.Vector3(0, -0.8, 0);
     scene.collisionsEnabled = true;
 
-    freeCamera = new BABYLON.FreeCamera("free", new BABYLON.Vector3(10, 10, 0), scene);
-    //freeCamera = new BABYLON.OculusCamera("Camera", new BABYLON.Vector3(0, 20, -45), scene)
-    freeCamera.minZ = 1;
-    freeCamera.checkCollisions = true;
-    freeCamera.applyGravity = true;
-    freeCamera.ellipsoid = new BABYLON.Vector3(1, 3, 1);
-    freeCamera.inertia = 0.4;
-    freeCamera.angularSensibility = 1000;
-
-    freeCamera.keysUp.push(87); // W
-    freeCamera.keysLeft.push(65); // A
-    freeCamera.keysDown.push(83); // S
-    freeCamera.keysRight.push(68); // D
-
-    //engine.isPointerLock = true;
+    Camera = setCamera(scene, inicio);
+    
 
 
     // Ground
@@ -67,7 +79,6 @@ function createMaze() {
     ground.material = groundMaterial;
     ground.checkCollisions = true;
 
-    //groundMaterial.diffuseTexture = new BABYLON.Texture("textures/green_long_grass.JPG", scene);
 
     var WallTexture = "textures/white_wall.jpg";
     var scaleValue = 100;
@@ -77,18 +88,9 @@ function createMaze() {
     WallMaterial.emissiveColor = new BABYLON.Color3(0.5, 0.5, 0.7);
     WallMaterial.specularColor = new BABYLON.Color3(0.8, 0.8, 0.9);
 
-    /*WallMaterial.emissiveTexture = new BABYLON.Texture(WallTexture, scene);
-    WallMaterial.emissiveTexture.uScale = scaleValue;
-    WallMaterial.emissiveTexture.vScale = scaleValue;
-    WallMaterial.bumpTexture = new BABYLON.Texture(WallTexture, scene);
-    WallMaterial.bumpTexture.vScale = scaleValue;
-    WallMaterial.bumpTexture.uScale = scaleValue;
-    WallMaterial.specularTexture = new BABYLON.Texture(WallTexture, scene);
-    WallMaterial.specularTexture.uScale = scaleValue;
-    WallMaterial.specularTexture.vScale = scaleValue;*/
-
+   
     
-    //var groundPlane = BABYLON.Mesh.CreatePlane("groundPlane", 200.0, scene);
+    
                                                                             // w   H   divs max min
     var walls = BABYLON.Mesh.CreateGroundFromHeightMap("wall", "binMaze.png", 200, 200, 200, 10, -2, scene, false);
     walls.material = WallMaterial;
@@ -115,23 +117,21 @@ function createMaze() {
     light1.diffuse = new BABYLON.Color3(1, 0.7333333333333333, 0.3568627450980392);
     light1.intensity = 0.2;
 
-    //TO DO: create the labyrinth
 
-    /*var row = 15;
-    var col = 20;
-
-    var cubeWallMaterial = new BABYLON.StandardMaterial("cubeWalls", scene);
-    cubeWallMaterial.emissiveTexture = new BABYLON.Texture("textures/coniferous_hedge.JPG", scene);
-    cubeWallMaterial.bumpTexture = new BABYLON.Texture("textures/coniferous_hedge.JPG", scene);
-    cubeWallMaterial.specularTexture = new BABYLON.Texture("textures/coniferous_hedge.JPG", scene);
-
-    var mainCube = BABYLON.Mesh.CreateBox("mainCube", BLOCK_SIZE, scene);
-    mainCube.material = cubeWallMaterial;
-    mainCube.checkCollisions = true;
-    mainCube.position = new BABYLON.Vector3(BLOCK_SIZE / 2 + (row - (mCount / 2)) * BLOCK_SIZE, BLOCK_SIZE / 2,
-        BLOCK_SIZE / 2 + (col - (mCount / 2)) * BLOCK_SIZE);
-*/
     return scene;
+};
+
+
+var seleccionInicio = function() {
+    
+    var a = $("#nombreLab").val();
+    var img = $('#imagen')[0].files[0];
+    var imgurl = window.URL.createObjectURL(img);
+    var size = $("#size").val();
+};
+
+var aLaPantalla = function() {
+    canvas.className = "onScreen";
 };
 
 window.onload = function () {
@@ -150,15 +150,22 @@ window.onload = function () {
         window.onkeyup = function(e) {
             var key = e.keyCode ? e.keyCode : e.which;
 
-            if (key == 80) // P
-                alert(freeCamera.position)
-            else if (key == 70) {  // F
-                freeCamera.applyGravity = false;
-            } else if(key = 82) { //R
-                freeCamera.position = inicio;
-            } else {
-                alert(key);
+            switch(key) {
+                case 80: //P
+                    alert(Camera.position)
+                    break;
+                case 70: //F
+                    Camera.applyGravity = false;
+                    break;
+                case 82: //R
+                    Camera.position = inicio;
+                    break;
+                case 27: //ESC
+                    canvas.className ="offScreen";
+                    break;
+                
             }
+            
         }
 
         Scene = createMaze();
@@ -176,7 +183,7 @@ window.onload = function () {
         });
         var objeto = JSON.parse(json);
         var lab = new Laberinto(objeto.name, objeto.inicio, objeto.fin, objeto.scene);
-        alert(lab.getInicio());
+        
 
         // Enable keyboard/mouse controls on the scene (FPS like mode)
         Scene.activeCamera.attachControl(canvas);
