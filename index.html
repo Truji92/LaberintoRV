@@ -21,6 +21,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script src="scripts/babylon.2.0.js"></script>
 <script src="scripts/Laberinto.js"></script>
 <script src="scripts/FileSaver.js"></script>
+<script src="scripts/Ejemplos.js"></script>
 </head>
 <body>
 
@@ -36,11 +37,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							
 						<div class="users">
 							<input type="text" id="nombreLab" class="text" value="Nombre del Laberinto" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Nombre del Laberinto';}" >
-							<p>Para crear el laberinto debe copiar la imagen a partir de la cual desea generarlo (muros en negro suelo en blanco) a la carpeta "laberintos".</p>
+							<p>Para crear el laberinto debe copiar la imagen a partir de la cual desea generarlo (muros en negro, suelo en blanco) a la carpeta "laberintos".</p>
 							<input type="text" id="imagen" class="text" value="Nombre de la Imagen (Ej: lab.jpg)" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Nombre de la imagen (Ej: lab.jpg)';}" >
-							<p>Si lo desea, puede variar el tamaño, en ocasiones la generación automática a partir de imagenes no escala adecuadamente.</p>
+							<p>Si lo desea, puede variar el tamaño ya que en ocasiones la generación automática a partir de imagenes no escala adecuadamente.</p>
 							<input type="text" id="size" class="text" value="200" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '200';}" >
 							<p>Para definir las posiciones de inicio y meta del laberinto, pulse los respectivos botones (tras lo cual podrá navegar por el laberinto) y siga las instrucciones.</p>
+							<p>Durante la definición de la meta, podrá definir también referencias internas en el laberinto.</p>
 							<div>
 								
 								<input type="submit" onclick="seleccionInicio()" value="inicio" >
@@ -52,7 +54,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</form>
 				<p>
 					Puedes colocar referencias externas simulando un cielo mediante SkyBox. 
-					Para modificar el SkyBox sustituir las imagenes en la carpeta "skybox/".
+					Para modificar el SkyBox puede sustituir las imagenes en la carpeta "skybox/".
 				</p>		
 				<div class="p-container">
 					<label class="checkbox"><input type="checkbox" id="skybox" name="skybox" checked><i> </i>Usar SkyBox</label>
@@ -66,14 +68,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<div class="login">
 			<h3>Cargar<span>Laberinto</span></h3>
 			<div class="login-info">
-				<p>Selecciona un archivo json de un laberinto creado anteriormente para cargarlo (¡ojo! es necesario que la imagen que utilizaste para generarlo siga en la carpeta "laberintos"):</p>
+				<p>Seleccione un archivo json de un laberinto creado anteriormente para cargarlo (¡ojo! es necesario que la imagen que se utilizó para generarlo siga en la carpeta "laberintos").</p>
 				<input type="file" id="laberintoJson" class="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Laberinto';}" >
 				<div class="btns">
 				<input type="submit" onclick="cargar()" value="cargar" ></div>
 				
-				<p>O puedes utilizar un laberindo predefinido</p>
-				<input type="text" class="text" value="Laberinto" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Laberinto';}" >
-				<div class="btns"> <input type="submit" onclick="myFunction()" value="cargar" > </div>
+				<p>O puede utilizar un laberindo de ejemplo</p>
+				<div class="select-style">
+					<select  name="SelectorEjemplos" id="SelectorEjemplos">
+   						<option selected value="0"> Elige un Laberinto </option>
+    					<option value="1">Pasillo sin SkyBox</option> 
+    					<option value="2">Pasillo con SkyBox</option> 
+    					<option value="3">Laberinto en Cruz</option>  
+    					<option value="4">Laberinto en Cruz con referencias internas</option>
+    					<option value="5">Laberinto Circular con SkyBox</option>    
+    					<option value="6">Laberinto Circular con SkyBox y referencias internas</option> 
+    					<option value="7">Laberinto Normal</option>      
+    				</select>
+    			</div>
+				<div class="btns"> <input type="submit" onclick="cargarEjemplo()" value="cargar" > </div>
 				<div class="p-container">
 					<label class="checkbox"><input type="checkbox" id="oculus" name="Oculus" checked><i> </i>Oculus Rift</label>
 				</div>

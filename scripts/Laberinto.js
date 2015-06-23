@@ -68,13 +68,13 @@ var Laberinto = function(_name, _img, _inicio, _meta, _skybox, _size, _verdes, _
 
 };
 
+
+
 var setCamera = function(scene, inicio) {
     var _camera;
     var pos = new BABYLON.Vector3(inicio.x, inicio.y, inicio.z);
-    if(oculus)
-        _camera = new BABYLON.OculusCamera("Camera", pos, scene)
-    else
-        _camera = new BABYLON.FreeCamera("free", pos, scene);
+    
+    _camera = new BABYLON.FreeCamera("free", pos, scene);
     
     _camera.minZ = 1;
     _camera.checkCollisions = true;
@@ -82,11 +82,31 @@ var setCamera = function(scene, inicio) {
     _camera.ellipsoid = new BABYLON.Vector3(1, 3, 1);
     _camera.inertia = 0.4;
     _camera.angularSensibility = 1000;
-    _camera.speed = 4;
+    _camera.speed = 3;
     /*_camera.keysUp.push(87); // W
     _camera.keysLeft.push(65); // A
     _camera.keysDown.push(83); // S
     _camera.keysRight.push(68); // D*/
+
+    if(oculus){
+        var originCamera = _camera;
+
+        _camera =  new BABYLON.OculusCamera("Oculus", originCamera.position, scene);
+        scene.activeCamera = _camera;
+        scene.activeCamera.minZ = originCamera.minZ;
+        scene.activeCamera.maxZ = originCamera.maxZ;
+        scene.activeCamera.gravity = originCamera.gravity;
+        scene.activeCamera.checkCollisions = true;
+        scene.activeCamera.applyGravity = true;
+        scene.activeCamera.attachControl(canvas);
+        scene.activeCamera.speed = originCamera.speed;
+        scene.activeCamera.rotation.copyFrom(originCamera.rotation);
+        _camera.ellipsoid = new BABYLON.Vector3(1, 3, 1);
+        _camera.inertia = 0.4;
+        _camera.angularSensibility = 1000;
+        _camera.speed = 3;
+        
+    }
 
     return _camera;
 };
@@ -173,6 +193,35 @@ function createMaze(img, size) {
     return scene;
 };
 
+function cargarEjemplo() {
+    var seleccion = $('#SelectorEjemplos').val();
+    switch(seleccion) {
+        case '0':
+            alert("¡Selecciona un laberinto!");
+            break;
+        case '1':
+            cargarLaberinto(PasilloSinSkyBox);
+            break;
+        case '2':
+            cargarLaberinto(PasilloConSkyBox);
+            break;
+        case '3':
+            cargarLaberinto(LabEnCruz);
+            break;
+        case '4':
+            cargarLaberinto(LabEnCruzReferencias);
+            break;
+        case '5':
+            cargarLaberinto(Circular);
+            break;
+        case '6':
+            cargarLaberinto(CircularRef);
+            break;
+        case '7':
+            cargarLaberinto(LaberintoNormal);
+            break;
+    }
+};
 
 function cargar() {
     var file = $('#laberintoJson')[0].files[0];
@@ -182,13 +231,14 @@ function cargar() {
         reader.readAsText(file);
         reader.onload = function(e) {
             // browser completed reading file 
-            cargarLaberinto(e.target.result);
+            var obj = JSON.parse(e.target.result);
+            cargarLaberinto(obj);
         };
     }
 };
 
-function cargarLaberinto(json) {
-    var obj = JSON.parse(json);
+function cargarLaberinto(obj) {
+    
     var laberinto = new Laberinto(obj.name, obj.img, obj.inicio, obj.meta, obj.skybox, obj.size, obj.verdes, obj.amarillos);
     oculus = $('#oculus').is(':checked');
     useSkybox = laberinto.skybox;
@@ -219,6 +269,8 @@ function cargarLaberinto(json) {
 
     Camera.applyGravity = true;
     aLaPantalla();
+
+    alert("¡Hola!, tu objetivo es encontrar el cubo rojo. En cuanto te muevas el tiempo empezara a contar y se detendrá cuando atravieses el cubo rojo.");
 
 
 };
