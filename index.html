@@ -35,11 +35,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							
 						<div class="users">
 							<input type="text" id="nombreLab" class="text" value="Nombre del Laberinto" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Nombre del Laberinto';}" >
-							<p>Seleccione un archivo de imagen para la generación del laberinto (muros en negro suelo en blanco).</p>
-							<input type="file" id="imagen" class="text" >
+							<p>Para crear el laberinto debe copiar la imagen a partir de la cual desea generarlo (muros en negro suelo en blanco) a la carpeta "laberintos".</p>
+							<input type="text" id="imagen" class="text" value="Nombre de la Imagen (Ej: lab.jpg)" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Nombre de la imagen (Ej: lab.jpg)';}" >
 							<p>Si lo desea, puede variar el tamaño, en ocasiones la generación automática a partir de imagenes no escala adecuadamente.</p>
 							<input type="text" id="size"class="text" value="200" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '200';}" >
-							<p>Para definir las posiciones de inicio y meta del laberinto, pulse los respectivos botones y siga las instrucciones.</p>
+							<p>Para definir las posiciones de inicio y meta del laberinto, pulse los respectivos botones (tras lo cual podrá navegar por el laberinto) y siga las instrucciones.</p>
 							<div>
 								
 								<input type="submit" onclick="seleccionInicio()" value="inicio" >
