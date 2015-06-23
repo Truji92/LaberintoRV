@@ -20,6 +20,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script src="scripts/jquery-1.9.1.js"></script>
 <script src="scripts/babylon.2.0.js"></script>
 <script src="scripts/Laberinto.js"></script>
+<script src="scripts/FileSaver.js"></script>
 </head>
 <body>
 
@@ -38,12 +39,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<p>Para crear el laberinto debe copiar la imagen a partir de la cual desea generarlo (muros en negro suelo en blanco) a la carpeta "laberintos".</p>
 							<input type="text" id="imagen" class="text" value="Nombre de la Imagen (Ej: lab.jpg)" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Nombre de la imagen (Ej: lab.jpg)';}" >
 							<p>Si lo desea, puede variar el tamaño, en ocasiones la generación automática a partir de imagenes no escala adecuadamente.</p>
-							<input type="text" id="size"class="text" value="200" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '200';}" >
+							<input type="text" id="size" class="text" value="200" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '200';}" >
 							<p>Para definir las posiciones de inicio y meta del laberinto, pulse los respectivos botones (tras lo cual podrá navegar por el laberinto) y siga las instrucciones.</p>
 							<div>
 								
 								<input type="submit" onclick="seleccionInicio()" value="inicio" >
-								<input type="submit" onclick="myFunction()" value="meta" >
+								<input type="submit" onclick="seleccionMeta()" value="meta" >
 								
 							</div>
 							
@@ -51,13 +52,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</form>
 				<p>
 					Puedes colocar referencias externas simulando un cielo mediante SkyBox. 
-					Para modificar el SkyBox sustituir las imagenes en la carpeta "textures/skybox/".
+					Para modificar el SkyBox sustituir las imagenes en la carpeta "skybox/".
 				</p>		
 				<div class="p-container">
 					<label class="checkbox"><input type="checkbox" id="skybox" name="skybox" checked><i> </i>Usar SkyBox</label>
 				</div>
 				<div class="clear"> </div>
-				<div class="btns"><input type="submit" onclick="myFunction()" value="guardar" ></div>
+				<div class="btns"><input type="submit" onclick="guardar()" value="guardar" ></div>
 				<div class="clear"> </div>
 				<div class="clear"> </div>
 			</div>
@@ -65,16 +66,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<div class="login">
 			<h3>Cargar<span>Laberinto</span></h3>
 			<div class="login-info">
-				<p>Selecciona un archivo de un laberinto creado anteriormente para cargarlo:</p>
-				<input type="file" class="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Laberinto';}" >
+				<p>Selecciona un archivo json de un laberinto creado anteriormente para cargarlo (¡ojo! es necesario que la imagen que utilizaste para generarlo siga en la carpeta "laberintos"):</p>
+				<input type="file" id="laberintoJson" class="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Laberinto';}" >
 				<div class="btns">
-				<input type="submit" onclick="aLaPantalla()" value="cargar" ></div>
+				<input type="submit" onclick="cargar()" value="cargar" ></div>
 				
 				<p>O puedes utilizar un laberindo predefinido</p>
 				<input type="text" class="text" value="Laberinto" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Laberinto';}" >
 				<div class="btns"> <input type="submit" onclick="myFunction()" value="cargar" > </div>
 				<div class="p-container">
-					<label class="checkbox"><input type="checkbox" name="Oculus" checked><i> </i>Oculus Rift</label>
+					<label class="checkbox"><input type="checkbox" id="oculus" name="Oculus" checked><i> </i>Oculus Rift</label>
 				</div>
 				<div class="clear"> </div>
 				<div class="clear"> </div>
